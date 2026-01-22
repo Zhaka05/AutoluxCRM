@@ -1,9 +1,9 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Depends
 from fastapi.templating import Jinja2Templates
 from sqlmodel import SQLModel, Session
 from .database import engine
 
-from typing import Annotated
+from typing import Annotated, Any
 from contextlib import asynccontextmanager
 
 
@@ -14,6 +14,7 @@ def get_session():
     with Session(engine) as session:
         yield session
 
+SessionDep = Annotated[Session, Depends(get_session())]
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
