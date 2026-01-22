@@ -5,3 +5,5 @@ __pycache__/
 test_main.http
 
 todolist.md
+
+database.db
