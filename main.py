@@ -1,18 +1,10 @@
 from fastapi import FastAPI, Request, Depends
 from fastapi.templating import Jinja2Templates
 from sqlmodel import SQLModel, Session
-from .database import engine
+from database import create_db_and_tables, get_session
 
 from typing import Annotated, Any
 from contextlib import asynccontextmanager
-
-
-def create_db_and_tables():
-    SQLModel.metadata.create_all(engine)
-
-def get_session():
-    with Session(engine) as session:
-        yield session
 
 SessionDep = Annotated[Session, Depends(get_session())]
 
