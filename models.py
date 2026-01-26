@@ -9,6 +9,5 @@ class ServiceTicket(SQLModel, table=True):
     service_name: str
     employee_name: str
     client_phone: str | None = None
-    time: datetime = Field(default_factory=datetime.now())
+    time: datetime = Field(default_factory=datetime.now)
     comment: Optional[str] = Field(default=None, max_length=500)
-
