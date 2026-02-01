@@ -23,8 +23,14 @@ def main(request: Request, session: SessionDep):
     tickets = session.exec(select(ServiceTicket)).all()
     return templates.TemplateResponse(request=request, name="main.html", context={"tickets": tickets})
 
-@app.post("/post")
-def post_main(
+@app.get("/create-order")
+def get_create_order(
+        request: Request,
+):
+    return templates.TemplateResponse(request=request, name="create_order.html")
+
+@app.post("/create-order")
+def post_create_order(
         request: Request,
         session: SessionDep,
         license_plate: str = Form(...),
@@ -46,4 +52,10 @@ def post_main(
     session.commit()
     session.refresh(db_service_ticket)
 
-    return RedirectResponse("/", status_code=302)
+    return RedirectResponse("/orders", status_code=302)
+
+
+@app.get("/orders")
+def get_orders(request: Request, session: SessionDep):
+    tickets = session.exec(select(ServiceTicket)).all()
+    return templates.TemplateResponse(request=request, name="orders.html", context={"tickets": tickets})

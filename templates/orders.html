@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+<div class="container mb-3 p-4">
+    {% for ticket in tickets %}
+  <div class="card mb-3">
+    <div class="card-body">
+      <h5 class="card-title">{{ ticket['license_plate'] }}</h5>
+      <p class="card-text"> {{ ticket['comment'] }}</p>
+      <p class="card-text"><small class="text-body-secondary">{{ticket['time']}}</small></p>
+    </div>
+  </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+  <div class="container p-4">
+    <form class="mb-3" action="{{ url_for('post_create_order') }}" method="post">
+      <!-- row: License Plate & Brand Name -->
+      <div class="row">
+      <!-- License plate column -->
+        <div class="col mb-3">
+          <label for="license_plate" class="form-label">License Plate</label>
+          <input class="form-control" id="license_plate" name="license_plate">
+        </div>
+      <!-- Car Brand column -->
+        <div class="col mb-3">
+          <label for="brand" class="form-label">Brand Name</label>
+          <input class="form-control" id="brand" name="brand">
+        </div>
+      </div>
+
+      <div class="row">
+          <div class="col mb-3">
+              <label for="service_name" class="form-label">Service Name</label>
+              <input class="form-control" id="service_name" name="service_name">
+          </div>
+      </div>
+      <div class="row">
+        <div class="col mb-3">
+          <label for="employee_name" class="form-label">Employee Name</label>
+          <input class="form-control" id="employee_name" name="employee_name">
+        </div>
+        <div class="col mb-3">
+          <label for="client_phone" class="form-label">Client Phone</label>
+          <input class="form-control" id="client_phone" name="client_phone">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col mb-3">
+            <label for="comment" class="form-label">Comment</label>
+            <textarea class="form-control" id="comment" name="comment" rows="3"></textarea>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+{% endblock %}
