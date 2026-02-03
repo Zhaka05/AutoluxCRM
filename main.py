@@ -19,9 +19,8 @@ app = FastAPI(lifespan=lifespan)
 
 templates = Jinja2Templates(directory="templates")
 @app.get("/")
-def main(request: Request, session: SessionDep):
-    tickets = session.exec(select(ServiceTicket)).all()
-    return templates.TemplateResponse(request=request, name="main.html", context={"tickets": tickets})
+def main(request: Request):
+    return templates.TemplateResponse(request=request, name="main.html")
 
 @app.get("/create-order")
 def get_create_order(
@@ -40,6 +39,7 @@ def post_create_order(
         client_phone: str = Form(...),
         comment: str = Form(...),
 ):
+    # post handler to save a new ticket
     db_service_ticket = ServiceTicket(
         license_plate=license_plate,
         brand=brand,
@@ -57,5 +57,6 @@ def post_create_order(
 
 @app.get("/orders")
 def get_orders(request: Request, session: SessionDep):
+    # view to list all tickets
     tickets = session.exec(select(ServiceTicket)).all()
     return templates.TemplateResponse(request=request, name="orders.html", context={"tickets": tickets})
