@@ -34,6 +34,7 @@ def post_create_order(
         session: SessionDep,
         license_plate: str = Form(...),
         brand: str = Form(...),
+        car_body: str = Form(...),
         employee_name: str = Form(...),
         service_name: str = Form(...),
         client_phone: str = Form(...),
@@ -43,6 +44,7 @@ def post_create_order(
     db_service_ticket = ServiceTicket(
         license_plate=license_plate,
         brand=brand,
+        car_body=car_body,
         service_name=service_name,
         employee_name=employee_name,
         client_phone=client_phone,
