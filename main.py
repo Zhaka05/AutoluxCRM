@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Request, Depends, Form
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import RedirectResponse
+from fastapi.staticfiles import StaticFiles
 from sqlmodel import Session, select
 from database import create_db_and_tables, get_session
 from models import ServiceTicket
@@ -62,3 +63,7 @@ def get_orders(request: Request, session: SessionDep):
     # view to list all tickets
     tickets = session.exec(select(ServiceTicket)).all()
     return templates.TemplateResponse(request=request, name="orders.html", context={"tickets": tickets})
+
+
+
+app.mount("/static", StaticFiles(directory="."), name="static")
