@@ -2,12 +2,16 @@ from fastapi import FastAPI, Request, Depends, Form
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
+
 from sqlmodel import Session, select
+from pydantic import BaseModel
+
 from database import create_db_and_tables, get_session
 from models import ServiceTicket
 
 from typing import Annotated, Any
 from contextlib import asynccontextmanager
+
 
 SessionDep = Annotated[Session, Depends(get_session)]
 
@@ -29,27 +33,30 @@ def get_create_order(
 ):
     return templates.TemplateResponse(request=request, name="create_order.html")
 
+class TicketRequestForm(BaseModel):
+    license_plate: str
+    brand: str
+    car_body: str
+    employee_name: str
+    service_name: str
+    client_phone: str
+    comment: str
+
 @app.post("/create-order")
 def post_create_order(
         request: Request,
         session: SessionDep,
-        license_plate: str = Form(...),
-        brand: str = Form(...),
-        car_body: str = Form(...),
-        employee_name: str = Form(...),
-        service_name: str = Form(...),
-        client_phone: str = Form(...),
-        comment: str = Form(...),
+        ticket_form: Annotated[TicketRequestForm, Form()],
 ):
     # post handler to save a new ticket
     db_service_ticket = ServiceTicket(
-        license_plate=license_plate,
-        brand=brand,
-        car_body=car_body,
-        service_name=service_name,
-        employee_name=employee_name,
-        client_phone=client_phone,
-        comment=comment,
+        license_plate=ticket_form.license_plate,
+        brand=ticket_form.brand,
+        car_body=ticket_form.car_body,
+        service_name=ticket_form.service_name,
+        employee_name=ticket_form.employee_name,
+        client_phone=ticket_form.client_phone,
+        comment=ticket_form.comment,
     )
     session.add(db_service_ticket)
     session.commit()
