@@ -1,5 +1,6 @@
-fastapi
+fastapi~=0.128.0
 uvicorn
 sqlalchemy
 jinja2
-sqlmodel
+sqlmodel~=0.0.31
+pydantic~=2.12.5
