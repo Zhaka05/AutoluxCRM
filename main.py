@@ -4,10 +4,12 @@ from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
 
 from sqlmodel import Session, select
-from pydantic import BaseModel
 
 from database import create_db_and_tables, get_session
 from models import ServiceTicket
+
+# all pydantic models
+from models import TicketRequestForm
 
 from typing import Annotated
 from contextlib import asynccontextmanager
@@ -32,15 +34,6 @@ def get_create_order(
         request: Request,
 ):
     return templates.TemplateResponse(request=request, name="create_order.html")
-
-class TicketRequestForm(BaseModel):
-    license_plate: str
-    brand: str
-    car_body: str
-    employee_name: str
-    service_name: str
-    client_phone: str
-    comment: str
 
 @app.post("/create-order")
 def post_create_order(
