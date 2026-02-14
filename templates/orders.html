@@ -5,13 +5,18 @@
 
 <div class="container mb-3 p-4">
     {% for ticket in tickets %}
-  <div class="card mb-3">
-    <div class="card-body">
-      <h5 class="card-title">{{ ticket['license_plate'] }}</h5>
-      <p class="card-text"> {{ ticket['comment'] }}</p>
-      <p class="card-text"><small class="text-body-secondary">{{ticket['time']}}</small></p>
-    </div>
-  </div>
+    <a href="/create-order" class="text-decoration-none">
+      <div class="card mb-3">
+        <div class="card-body">
+          <h6 class="card-subtitle mb-2 text-body-secondary">
+              entry: {{ticket['created_time']}} -
+              worker: {{ticket['employee_name']}}
+          </h6>
+          <h5 class="card-title">{{ ticket['license_plate'] }} - {{ ticket['brand'] }}</h5>
+          <p class="card-text"> {{ ticket['car_body'] }}</p>
+        </div>
+      </div>
+    </a>
     {% endfor %}
 </div>
 

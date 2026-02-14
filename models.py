@@ -1,4 +1,4 @@
-from sqlmodel import SQLModel, Field
+from sqlmodel import SQLModel, Field, Column, DateTime
 from typing import Optional
 from datetime import datetime
 
@@ -12,8 +12,15 @@ class ServiceTicket(SQLModel, table=True):
     service_name: str
     employee_name: str
     client_phone: str | None = None
-    time: datetime = Field(default_factory=datetime.now)
+    created_datetime: datetime = Field(
+        default_factory=datetime.now,
+        sa_column=Column(DateTime)
+    )
     comment: Optional[str] = Field(default=None, max_length=500)
+
+    @property
+    def created_time(self):
+        return self.created_datetime.strftime("%H:%M")
 
 class TicketRequestForm(BaseModel):
     license_plate: str
