@@ -7,9 +7,7 @@ from sqlmodel import Session, select
 
 from database import create_db_and_tables, get_session
 from models import ServiceTicket
-
-# all pydantic models
-from models import TicketRequestForm
+from schemas import TicketRequestForm
 
 from typing import Annotated
 from contextlib import asynccontextmanager

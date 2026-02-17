@@ -2,8 +2,6 @@ from sqlmodel import SQLModel, Field, Column, DateTime
 from typing import Optional
 from datetime import datetime
 
-from pydantic import BaseModel
-
 class ServiceTicket(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)
     license_plate: str
@@ -21,12 +19,3 @@ class ServiceTicket(SQLModel, table=True):
     @property
     def created_time(self):
         return self.created_datetime.strftime("%H:%M")
-
-class TicketRequestForm(BaseModel):
-    license_plate: str
-    brand: str
-    car_body: str
-    employee_name: str
-    service_name: str
-    client_phone: str
-    comment: str
