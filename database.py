@@ -1,5 +1,5 @@
 from sqlmodel import SQLModel, Session, create_engine
-import models
+import models.service_ticket as service_ticket
 
 sqlite_file_name = "database.db"
 sqlite_url = f"sqlite:///{sqlite_file_name}"

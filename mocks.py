@@ -19,7 +19,7 @@ from faker import Faker
 from main import get_session
 from database import Session
 from schemas import TicketRequestForm
-from models import ServiceTicket
+from models.service_ticket import ServiceTicket
 
 SessionDep = Annotated[Session, Depends(get_session)]
 
