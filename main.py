@@ -1,14 +1,13 @@
-from fastapi import FastAPI, Request, Depends, Form, HTTPException, Response
+from fastapi import FastAPI, Request, Depends, Form, HTTPException, Response, status
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
-
 from sqlmodel import Session, select
 
 from database import create_db_and_tables, get_session
 from models.service_ticket import ServiceTicket, ServiceTicketPublic, ServiceTicketCreate, ServiceTicketUpdate, ServiceTicketReplace
 
-from typing import Annotated
+from typing import Annotated, List
 from contextlib import asynccontextmanager
 
 
@@ -63,18 +62,18 @@ def update_order(order_id: int, session: SessionDep, ticket_form: ServiceTicketR
     db_service_ticket = session.get(ServiceTicket, order_id)
 
     if not db_service_ticket:
-        raise HTTPException(status_code=404, detail="Service Ticket was not found")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Service Ticket was not found")
 
     ticket_data = ticket_form.model_dump()
     db_service_ticket.sqlmodel_update(ticket_data) # update
 
 
-    session.add(ticket_data)
+    session.add(db_service_ticket)
     session.commit()
     session.refresh(db_service_ticket)
     return db_service_ticket
 
-@app.get("/orders")
+@app.get("/orders", response_model = List[ServiceTicketPublic])
 def get_orders(session: SessionDep):
     # view to list all tickets
     tickets = session.exec(select(ServiceTicket)).all()
