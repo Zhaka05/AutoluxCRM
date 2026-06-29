@@ -18,8 +18,9 @@ from faker import Faker
 
 from main import get_session
 from database import Session
-from schemas import TicketRequestForm
-from models.service_ticket import ServiceTicket
+from models.service_ticket import ServiceTicket, ServiceTicketPublic
+from sqlmodel import delete
+
 
 SessionDep = Annotated[Session, Depends(get_session)]
 
@@ -39,17 +40,17 @@ def generate_mock_ticket() -> dict:
     }
 
 
-def generate_tickets(num: int) -> list[TicketRequestForm]:
+def generate_tickets(num: int) -> list[ServiceTicketPublic]:
     res = []
     for i in range(num):
         ticket_data = generate_mock_ticket()
 
-        ticket = TicketRequestForm(**ticket_data)
+        ticket = ServiceTicketPublic(**ticket_data)
         res.append(ticket)
     return res
 
 
-def add_mock_tickets_to_db(tickets: list[TicketRequestForm]):
+def add_mock_tickets_to_db(tickets: list[ServiceTicketPublic]):
     session = next(get_session())
 
     try:
@@ -69,14 +70,15 @@ def remove_mock_tickets_from_db():
     session = next(get_session())
 
     try:
-        deleted_count = session.execute(ServiceTicket).delete()
+        result = session.exec(delete(ServiceTicket))
         session.commit()
-        print(f"✓ Successfully removed {deleted_count} tickets from the database")
+        print("✓ Successfully removed all tickets from the database")
     except Exception as e:
         session.rollback()
         print(f"✗ Error removing tickets: {e}")
     finally:
         session.close()
+
 
 action_input = input().strip()
 
