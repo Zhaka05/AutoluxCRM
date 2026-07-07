@@ -32,6 +32,15 @@ def get_ticket(ticket_id: int, session: SessionDep):
 
     return ticket
 
+@router.post("/scheduled", response_model=service_ticket.ScheduledTicketCreate)
+def schedule_ticket(session: SessionDep, ticket_form: service_ticket.ServiceTicketCreate):
+    ticket = service_ticket.ServiceTicket(**ticket_form.model_dump())
+
+    session.add(ticket)
+    session.commit()
+    session.refresh(ticket)
+
+    return ticket
 
 @router.post("/", response_model=service_ticket.ServiceTicketPublic, status_code=201)
 def post_ticket(

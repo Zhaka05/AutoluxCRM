@@ -1,24 +1,33 @@
-from sqlmodel import Relationship, SQLModel, Field, Column, DateTime
-from datetime import datetime
+from datetime import datetime, timezone
+from sqlmodel import SQLModel, Field, Column
+from sqlalchemy import DateTime
 
 class ServiceTicketBase(SQLModel):
     license_plate: str
     brand: str
-    car_body: str
-    service_name: str
-    employee_name: str
+    car_body: str | None = None # these became None because of scheduled does not require them
+    service_name: str | None = None
+    employee_name: str | None = None
     client_phone: str | None = None
     comment: str | None = Field(default=None, max_length=500)
-
+    scheduled_at: datetime | None = Field(default=None, index=True)
+    
 class ServiceTicket(ServiceTicketBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
     created_datetime: datetime = Field(
-        default_factory=datetime.now,
-        sa_column=Column(DateTime)
+        default_factory=lambda: datetime.now(timezone.utc),
+        sa_column=Column(DateTime(timezone=True), nullable=False)
     )
 
 class ServiceTicketCreate(ServiceTicketBase):
     pass
+
+
+class ScheduledTicketCreate(SQLModel):
+    license_plate: str
+    brand: str
+    scheduled_at: datetime
+    comment: str | None = Field(default=None, max_length=500)
 
 class ServiceTicketUpdate(SQLModel):
     license_plate: str | None = None
@@ -27,6 +36,7 @@ class ServiceTicketUpdate(SQLModel):
     service_name: str | None = None
     employee_name: str | None = None
     client_phone: str | None = None
+    scheduled_at: datetime | None = None
 
 class ServiceTicketPublic(ServiceTicketBase):
     id: int
