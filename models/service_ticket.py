@@ -5,7 +5,7 @@ from sqlalchemy import DateTime
 class ServiceTicketBase(SQLModel):
     license_plate: str
     brand: str
-    car_body: str | None = None # these became None because of scheduled does not require them
+    car_body: str | None = None # these became None because scheduled does not require them
     service_name: str | None = None
     employee_name: str | None = None
     client_phone: str | None = None
