@@ -2,6 +2,9 @@ from datetime import datetime, timezone
 from sqlmodel import SQLModel, Field, Column
 from sqlalchemy import DateTime
 
+from .carwash import CarWash
+from .staff import Staff
+
 class ServiceTicketBase(SQLModel):
     license_plate: str
     brand: str
@@ -18,6 +21,8 @@ class ServiceTicket(ServiceTicketBase, table=True):
         default_factory=lambda: datetime.now(timezone.utc),
         sa_column=Column(DateTime(timezone=True), nullable=False)
     )
+    carwash_id: int = Field(foreign_key="carwash.id")
+    created_by_staff_id: int = Field(foreign_key="staff.id")
 
 class ServiceTicketCreate(ServiceTicketBase):
     pass
