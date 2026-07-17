@@ -7,4 +7,14 @@ class Service(SQLModel, table=True):
     name: str
     price: float
     carwash_id: int = Field(foreign_key="carwash.id")
-    
+
+class ServiceCreate(SQLModel):
+    name: str
+    price: float
+    carwash_id: int
+
+class ServicePublic(SQLModel):
+    id: int
+    name: str
+    price: float
+    carwash_id: int

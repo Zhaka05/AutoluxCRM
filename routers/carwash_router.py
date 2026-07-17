@@ -14,7 +14,7 @@ router = APIRouter(
 # router.add_route(tickets_router.router)
 
 @router.post("/", response_model=carwash.CarWashPublic)
-def post_owner(session: SessionDep, carwash_form: carwash.CarWashCreate):
+def post_carwash(session: SessionDep, carwash_form: carwash.CarWashCreate):
     
     current_carwash = carwash.CarWash(**carwash_form.model_dump())
 
@@ -25,7 +25,7 @@ def post_owner(session: SessionDep, carwash_form: carwash.CarWashCreate):
     return current_carwash
 
 @router.get("/{carwash_id}", response_model=carwash.CarWashPublic)
-def get_owner(carwash_id: int, session: SessionDep):
+def get_carwash(carwash_id: int, session: SessionDep):
     current_carwash = session.get(carwash.CarWash, carwash_id)
 
     if not current_carwash:

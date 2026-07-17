@@ -6,7 +6,7 @@ from database import create_db_and_tables
 
 from contextlib import asynccontextmanager
 
-from routers import tickets_router, owner_router, carwash_router
+from routers import tickets_router, owner_router, carwash_router, payment_type_router, vehicle_type_router, service_router, staff_router
 
 
 @asynccontextmanager
@@ -25,5 +25,9 @@ def main(request: Request):
 app.include_router(tickets_router.router)
 app.include_router(owner_router.router)
 app.include_router(carwash_router.router)
+app.include_router(payment_type_router.router)
+app.include_router(vehicle_type_router.router)
+app.include_router(service_router.router)
+app.include_router(staff_router.router)
 
 app.mount("/static", StaticFiles(directory="."), name="static")

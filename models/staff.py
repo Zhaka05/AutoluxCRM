@@ -19,3 +19,15 @@ class Staff(SQLModel, table=True):
     # owner: "Owner" = Relationship(
     #     back_populates="managers"
     # )
+class StaffCreate(SQLModel):
+    name: str
+    phone: str
+    role: StaffRole
+    carwash_id: int
+
+class StaffPublic(SQLModel):
+    id: int
+    name: str
+    phone: str
+    role: StaffRole
+    carwash_id: int

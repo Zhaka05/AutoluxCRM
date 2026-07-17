@@ -14,6 +14,8 @@ class ServiceTicketBase(SQLModel):
     client_phone: str | None = None
     comment: str | None = Field(default=None, max_length=500)
     scheduled_at: datetime | None = Field(default=None, index=True)
+    carwash_id: int
+    created_by_staff_id: int
     
 class ServiceTicket(ServiceTicketBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
@@ -34,6 +36,7 @@ class ScheduledTicketCreate(SQLModel):
     scheduled_at: datetime
     comment: str | None = Field(default=None, max_length=500)
     carwash_id: int
+    created_by_staff_id: int
 
 class ServiceTicketUpdate(SQLModel):
     license_plate: str | None = None
@@ -47,6 +50,8 @@ class ServiceTicketUpdate(SQLModel):
 class ServiceTicketPublic(ServiceTicketBase):
     id: int
     created_datetime: datetime
+    carwash_id: int
+    created_by_staff_id: int
 
 class ServiceTicketReplace(ServiceTicketBase):
     pass
