@@ -33,6 +33,7 @@ class ScheduledTicketCreate(SQLModel):
     brand: str
     scheduled_at: datetime
     comment: str | None = Field(default=None, max_length=500)
+    carwash_id: int
 
 class ServiceTicketUpdate(SQLModel):
     license_plate: str | None = None

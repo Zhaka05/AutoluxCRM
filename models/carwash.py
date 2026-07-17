@@ -14,3 +14,15 @@ class CarWash(SQLModel, table=True):
     # owner: "Owner" = Relationship(
     #     back_populates="car_washes"
     # )
+
+class CarWashCreate(SQLModel):
+    name: str
+    address: str
+    manager_code_hash: str
+    employee_code_hash: str
+    owner_id: int
+
+class CarWashPublic(SQLModel):
+    name: str
+    address: str
+    owner_id: int
