@@ -19,8 +19,12 @@ class Owner(SQLModel, table=True):
 class OwnerCreate(SQLModel):
     name: str
     phone: str
-    password_hash: str
+    password: str
 
 class OwnerPublic(SQLModel):
     name: str
     phone: str
+
+class OwnerLogin(SQLModel):
+    phone: str
+    password: str

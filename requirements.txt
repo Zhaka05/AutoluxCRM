@@ -8,3 +8,4 @@ pytest
 requests
 faker
 faker-vehicle
+passlib[bcrypt]
