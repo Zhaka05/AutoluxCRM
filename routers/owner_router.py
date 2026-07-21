@@ -1,8 +1,12 @@
-from fastapi import HTTPException, APIRouter, Response, status
+from fastapi import HTTPException, APIRouter, Response, status, Depends
+from fastapi.security import OAuth2PasswordRequestForm
 from sqlmodel import select
 
+from typing import Annotated
+
 from models import owner
-import utils
+import schemas
+import utils, oauth2
 
 from dependencies import SessionDep
 
@@ -35,9 +39,9 @@ def get_owner(owner_id: int, session: SessionDep):
     return current_owner
 
 
-@router.post("/login")
-def login(owner_credentials: owner.OwnerLogin, session: SessionDep):
-    statement = select(owner.Owner).where(owner.Owner.phone == owner_credentials.phone)
+@router.post("/login", response_model=schemas.Token)
+def login(owner_credentials: Annotated[OAuth2PasswordRequestForm, Depends()], session: SessionDep):
+    statement = select(owner.Owner).where(owner.Owner.phone == owner_credentials.username)
     current_owner = session.exec(statement).first()
 
     if not current_owner or not utils.verify_password(
@@ -47,4 +51,5 @@ def login(owner_credentials: owner.OwnerLogin, session: SessionDep):
             status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid Credentials"
         )
 
-    return {"example_token": "token"}
+    access_token = oauth2.create_access_token(data={"user_id": current_owner.id})
+    return {"access_token": access_token, "token_type": "bearer"}

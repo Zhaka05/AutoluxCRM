@@ -9,3 +9,7 @@ todolist.md
 database.db
 
 .DS_Store
+
+.env
+
+.venv/

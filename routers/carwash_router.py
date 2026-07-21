@@ -1,6 +1,7 @@
-from fastapi import HTTPException, APIRouter, Response, status
+from fastapi import HTTPException, APIRouter, Depends, Response, status
 
 from models import carwash
+import oauth2
 
 from dependencies import SessionDep
 
@@ -14,7 +15,7 @@ router = APIRouter(
 # router.add_route(tickets_router.router)
 
 @router.post("/", response_model=carwash.CarWashPublic)
-def post_carwash(session: SessionDep, carwash_form: carwash.CarWashCreate):
+def post_carwash(session: SessionDep, carwash_form: carwash.CarWashCreate, get_current_owner: int = Depends(oauth2.get_current_owner)):
     
     current_carwash = carwash.CarWash(**carwash_form.model_dump())
 
