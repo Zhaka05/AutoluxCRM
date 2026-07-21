@@ -1,6 +1,5 @@
 from sqlmodel import SQLModel, Session, create_engine
-import models.service_ticket as service_ticket
-from models import carwash, service, owner, staff, vehicle_type, payment_type
+from models import carwash, service, owner, staff, vehicle_type, payment_type, service_ticket
 from config import settings
 
 postgres_url = f"postgresql+psycopg://{settings.database_username}:{settings.database_password}@{settings.database_hostname}:{settings.database_port}/{settings.database_name}"
