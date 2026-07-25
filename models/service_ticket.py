@@ -12,6 +12,7 @@ class ServiceTicketBase(SQLModel):
     service_name: str | None = None
     employee_name: str | None = None
     client_phone: str | None = None
+    total_price: float | None = None
     comment: str | None = Field(default=None, max_length=500)
     scheduled_at: datetime | None = Field(default=None, index=True)
     carwash_id: int
