@@ -28,3 +28,8 @@ The server will start in port 8000. To check:
 ```bash
 curl localhost:8000
 ```
+
+## Access API documentation
+```bash
+http://142.93.195.38/docs
+```
