@@ -4,10 +4,10 @@ Open Source software solution for Car Wash CRM
 
 - create ticket
 - assign worker
-- extract data
-- calculate reward for workers
 - view/modify existing tickets
 - manage orders
+- extract data (soon)
+- calculate reward for workers (soon)
 
 ## Project Start
 
